@@ -23,19 +23,17 @@ jobs:
 
       - name: Run digest
         env:
+          # Secrets (Settings > Secrets and variables > Actions > Secrets tab)
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          YOUTUBE_CHANNEL_IDS: ${{ secrets.YOUTUBE_CHANNEL_IDS }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-          LOOKBACK_HOURS: "24"
-          # Edit the persona without touching code: Settings > Secrets and variables > Actions > Variables.
-          # Falls back to the default in main.py if unset.
-          VIEWER_PROFILE: ${{ vars.VIEWER_PROFILE }}
-          # Which Claude model to use. Same Variables tab as above.
-          # Examples: claude-sonnet-4-6, claude-haiku-4-5-20251001, claude-opus-4-7.
-          # Falls back to claude-sonnet-4-6 if unset.
+          VIEWER_PROFILE: ${{ secrets.VIEWER_PROFILE }}
+          # Variables (same screen, Variables tab) — readable and editable later, no re-typing.
+          # Each falls back to a sensible default in main.py if unset.
+          YOUTUBE_CHANNEL_IDS: ${{ vars.YOUTUBE_CHANNEL_IDS }}
+          EMAIL_TO: ${{ vars.EMAIL_TO }}
+          LOOKBACK_HOURS: ${{ vars.LOOKBACK_HOURS }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
         run: python main.py
 

@@ -29,7 +29,7 @@ ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 GMAIL_ADDRESS = os.environ["GMAIL_ADDRESS"]
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 EMAIL_TO = _split_csv(os.environ["EMAIL_TO"])
-LOOKBACK_HOURS = int(os.environ.get("LOOKBACK_HOURS", "24"))
+LOOKBACK_HOURS = int(os.environ.get("LOOKBACK_HOURS") or "24")
 
 PROCESSED_FILE = Path(__file__).parent / "processed_videos.json"
 CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL") or "claude-sonnet-4-6"

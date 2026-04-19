@@ -76,29 +76,34 @@ To force a re-run for testing, just empty that file: `echo "[]" > processed_vide
 
 The included workflow at [.github/workflows/daily-digest.yml](.github/workflows/daily-digest.yml) runs every day at **05:00 Singapore time** (21:00 UTC the day before). To schedule for a different timezone, edit the cron line — it uses standard UTC cron syntax.
 
-### 1. Add your secrets
+In your fork: **Settings → Secrets and variables → Actions**. The workflow expects two groups:
 
-In your fork: **Settings → Secrets and variables → Actions → Secrets → New repository secret**. Add:
+### 1. Secrets tab — sensitive credentials
 
-- `YOUTUBE_API_KEY`
-- `YOUTUBE_CHANNEL_IDS`
-- `ANTHROPIC_API_KEY`
-- `GMAIL_ADDRESS`
-- `GMAIL_APP_PASSWORD`
-- `EMAIL_TO`
+Things you don't want exposed in workflow logs. Once saved, the value can't be read back, only re-entered.
 
-### 2. (Optional) Add the persona and model variables
+| Name | What it is |
+|---|---|
+| `YOUTUBE_API_KEY` | Your Google Cloud API key. |
+| `ANTHROPIC_API_KEY` | Your Claude API key. |
+| `GMAIL_ADDRESS` | The Gmail you send from. |
+| `GMAIL_APP_PASSWORD` | The 16-char Gmail App Password. |
+| `VIEWER_PROFILE` | The persona Claude writes for. *(Optional — defaults to the innovation-director one. Stored as a Secret here purely as a personal preference; nothing about it is sensitive, so you could equally put it under Variables.)* |
 
-Same screen, **Variables** tab → New repository variable:
+### 2. Variables tab — non-sensitive config
 
-- `VIEWER_PROFILE` — your persona string (see [Customising the persona](#customising-the-persona))
-- `CLAUDE_MODEL` — which Claude model to use (see [Choosing a Claude model](#choosing-a-claude-model))
+Plain-text values you'll want to read and edit later without re-typing. Each has a sensible default in the code if unset.
 
-These are *Variables*, not *Secrets*, so you can read and edit them later without re-typing. Both have sensible defaults if you skip this step.
+| Name | What it is |
+|---|---|
+| `YOUTUBE_CHANNEL_IDS` | Comma-separated channel IDs (`UC...,UC...`). |
+| `EMAIL_TO` | Comma-separated recipient email(s). |
+| `LOOKBACK_HOURS` | How many hours back to scan (default `24`). |
+| `CLAUDE_MODEL` | Which Claude model to use (default `claude-sonnet-4-6`). See [Choosing a Claude model](#choosing-a-claude-model). |
 
 ### 3. Test the workflow manually
 
-**Actions** tab → *Daily YouTube Digest* → *Run workflow*. If the secrets are right, the digest lands in your inbox within a minute or two. After that, the cron takes over.
+**Actions** tab → *Daily YouTube Digest* → *Run workflow*. If the secrets and variables are right, the digest lands in your inbox within a minute or two. After that, the cron takes over.
 
 The workflow commits the updated [processed_videos.json](processed_videos.json) back to the repo each run — that's why videos never get summarised twice across runs.
 
