@@ -1,0 +1,4 @@
+anthropic>=0.39.0
+google-api-python-client>=2.140.0
+youtube-transcript-api>=0.6.2
+python-dotenv>=1.0.1
