@@ -33,6 +33,10 @@ jobs:
           # Edit the persona without touching code: Settings > Secrets and variables > Actions > Variables.
           # Falls back to the default in main.py if unset.
           VIEWER_PROFILE: ${{ vars.VIEWER_PROFILE }}
+          # Which Claude model to use. Same Variables tab as above.
+          # Examples: claude-sonnet-4-6, claude-haiku-4-5-20251001, claude-opus-4-7.
+          # Falls back to claude-sonnet-4-6 if unset.
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
         run: python main.py
 
       - name: Commit processed_videos.json

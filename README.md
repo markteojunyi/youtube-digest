@@ -60,6 +60,7 @@ cp .env.example .env
 | `EMAIL_TO` | Where the digest goes. Comma-separated for multiple recipients. |
 | `LOOKBACK_HOURS` | How many hours back to look for new videos (default `24`). |
 | `VIEWER_PROFILE` | The persona Claude writes for. Optional — defaults to the innovation-director one. |
+| `CLAUDE_MODEL` | Which Claude model to use. Optional — defaults to `claude-sonnet-4-6`. See [Choosing a Claude model](#choosing-a-claude-model). |
 
 ### Run it
 
@@ -86,13 +87,14 @@ In your fork: **Settings → Secrets and variables → Actions → Secrets → N
 - `GMAIL_APP_PASSWORD`
 - `EMAIL_TO`
 
-### 2. (Optional) Add the persona variable
+### 2. (Optional) Add the persona and model variables
 
 Same screen, **Variables** tab → New repository variable:
 
-- `VIEWER_PROFILE` — your persona string
+- `VIEWER_PROFILE` — your persona string (see [Customising the persona](#customising-the-persona))
+- `CLAUDE_MODEL` — which Claude model to use (see [Choosing a Claude model](#choosing-a-claude-model))
 
-This is a *Variable*, not a *Secret*, so you can read and edit it later without re-typing it. If you don't set it, the default innovation-director persona kicks in.
+These are *Variables*, not *Secrets*, so you can read and edit them later without re-typing. Both have sensible defaults if you skip this step.
 
 ### 3. Test the workflow manually
 
@@ -118,6 +120,18 @@ VIEWER_PROFILE="a high school teacher looking for classroom-ready ideas and anal
 ```
 
 The more specific the persona, the sharper the framing.
+
+## Choosing a Claude model
+
+Set the `CLAUDE_MODEL` variable to pick the model. All three use the same Anthropic API key — only the cost, speed, and quality change.
+
+| Model ID | When to use |
+|---|---|
+| `claude-sonnet-4-6` | **Default.** Balanced quality and cost. Good for most channels. |
+| `claude-haiku-4-5-20251001` | Cheapest and fastest. Fine for short videos or large channel lists where you want to keep costs minimal. |
+| `claude-opus-4-7` | Highest quality. Use if you want maximum nuance in the "why it matters" framing — at noticeably higher cost. |
+
+Want to plug in a non-Claude model (OpenAI, Gemini, local)? That requires editing `summarize()` in [main.py](main.py#L91) directly — different SDK, different message format, different response shape. Not a one-line change.
 
 ## How it works (quick tour)
 

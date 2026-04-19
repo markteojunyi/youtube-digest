@@ -32,7 +32,7 @@ EMAIL_TO = _split_csv(os.environ["EMAIL_TO"])
 LOOKBACK_HOURS = int(os.environ.get("LOOKBACK_HOURS", "24"))
 
 PROCESSED_FILE = Path(__file__).parent / "processed_videos.json"
-CLAUDE_MODEL = "claude-sonnet-4-6"
+CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL") or "claude-sonnet-4-6"
 
 DEFAULT_VIEWER_PROFILE = (
     "an aspiring innovation/transformation director who scans these to brief "
