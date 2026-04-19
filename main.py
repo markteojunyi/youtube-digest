@@ -34,10 +34,11 @@ LOOKBACK_HOURS = int(os.environ.get("LOOKBACK_HOURS", "24"))
 PROCESSED_FILE = Path(__file__).parent / "processed_videos.json"
 CLAUDE_MODEL = "claude-sonnet-4-6"
 
-VIEWER_PROFILE = (
+DEFAULT_VIEWER_PROFILE = (
     "an aspiring innovation/transformation director who scans these to brief "
     "leadership and spot strategic signals worth acting on"
 )
+VIEWER_PROFILE = os.environ.get("VIEWER_PROFILE") or DEFAULT_VIEWER_PROFILE
 
 
 def load_processed_ids() -> set[str]:
@@ -94,9 +95,9 @@ def summarize(client: Anthropic, title: str, transcript: str) -> dict:
         f'You are summarising a YouTube video for {VIEWER_PROFILE}.\n\n'
         f'Video title: "{title}"\n\n'
         f"Produce a JSON object with exactly these keys:\n"
-        f'- "tldr": one punchy sentence (max 30 words) capturing the core message — the "so what".\n'
-        f'- "why_it_matters": array of 2-3 short bullets framed for an innovation/transformation leader '
-        f"(strategic signal, what to brief leadership on, implication for how the org should think or act).\n"
+        f'- "tldr": one punchy sentence (max 30 words) capturing the core message — the "so what" for this reader.\n'
+        f'- "why_it_matters": array of 2-3 short bullets framed specifically for the reader described above '
+        f"(the signals, implications, or takeaways they would most want to act on or share).\n"
         f'- "deep_dive": array of 4-6 substantive bullets covering the key content, examples, frameworks, '
         f"or specifics from the video.\n\n"
         f"Each bullet should be a complete sentence, no leading dashes. "
